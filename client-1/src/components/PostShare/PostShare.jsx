@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import "./PostShare.css";
 import ProfileImage from "../../img/profileImg.jpg";
 import { UilScenery } from "@iconscout/react-unicons";
@@ -7,6 +7,17 @@ import { UilLocationPoint } from "@iconscout/react-unicons";
 import { UilSchedule } from "@iconscout/react-unicons";
 import { UilTimes } from "@iconscout/react-unicons";
 const PostShare = () => {
+  const [image, setImage] = useState(null);
+
+  // handle Image Change
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      let img = event.target.files[0];
+      setImage(img);
+    }
+  };
+
+  const imageRef = useRef();
   return (
     <div className="PostShare">
       <img src={ProfileImage} alt="" />
@@ -17,7 +28,7 @@ const PostShare = () => {
           <div
             className="option"
             style={{ color: "var(--photo)" }}
-            // onClick={() => imageRef.current.click()}
+            onClick={() => imageRef.current.click()}
           >
             <UilScenery />
             Photo
@@ -35,7 +46,23 @@ const PostShare = () => {
             <UilSchedule />
             Shedule
           </div>
+          <button className="button ps-button">Share</button>
+          <div style={{ display: "none" }}>
+            <input
+              type="file"
+              placeholder="What's happening"
+              name="myImage"
+              ref={imageRef}
+              onChange={onImageChange}
+            />
+          </div>
         </div>
+        {image && (
+          <div className="previewImage">
+            <UilTimes onClick={() => setImage(null)} />
+            <img src={URL.createObjectURL(image)} alt="preview" />
+          </div>
+        )}
       </div>
     </div>
   );
