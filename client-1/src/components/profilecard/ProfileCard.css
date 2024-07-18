@@ -1,0 +1,22 @@
+.ProfileCard {
+  border-radius: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 1rem;
+}
+
+.ProfileImages {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.ProfileImages:nth-of-type(1) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
