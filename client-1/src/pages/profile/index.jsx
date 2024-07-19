@@ -1,6 +1,7 @@
 import PostSide from "../../components/PostSide/PostSide";
 import ProfileLeft from "../../components/ProfileLeft/ProfileLeft";
 import ProfileCard from "../../components/profilecard/ProfileCard";
+import RightSide from "../../components/RightSide/RightSide";
 import "./Profile.css";
 
 const Profile = () => {
@@ -12,6 +13,8 @@ const Profile = () => {
         <ProfileCard />
         <PostSide />
       </div>
+
+      <RightSide />
     </div>
   );
 };
