@@ -5,39 +5,38 @@ import Share from "../../img/share.png";
 import Heart from "../../img/like.png";
 import NotLike from "../../img/notlike.png";
 // import { likePost } from "../../api/PostsRequests";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { likePost } from "../../api/PostsRequest";
 
 const Post = ({ data }) => {
-  // const { user } = useSelector((state) => state.authReducer.authData);
-  // const [liked, setLiked] = useState(data.likes.includes(user._id));
-  // const [likes, setLikes] = useState(data.likes.length)
+  const { user } = useSelector((state) => state.authReducer.authData);
+  const [liked, setLiked] = useState(data.likes.includes(user._id));
+  const [likes, setLikes] = useState(data.likes.length);
 
-  // const handleLike = () => {
-  //   likePost(data._id, user._id);
-  //   setLiked((prev) => !prev);
-  //   liked? setLikes((prev)=>prev-1): setLikes((prev)=>prev+1)
-  // };
+  const handleLike = () => {
+    likePost(data._id, user._id);
+    setLiked((prev) => !prev);
+    liked ? setLikes((prev) => prev - 1) : setLikes((prev) => prev + 1);
+  };
   return (
+    // TODO: Consider integrating video uplaods too and using react-video-player for the video
     <div className="Post">
-      <img
-        // src={data.img ? process.env.REACT_APP_PUBLIC_FOLDER + data.image : ""}
-        src={data.img}
-        alt=""
-      />
+      <img src={data.image ? data.image : ""} alt="" />
 
       <div className="postReact">
         <img
-          src={data?.liked ? Heart : NotLike}
+          src={liked ? Heart : NotLike}
           alt=""
           style={{ cursor: "pointer" }}
-          // onClick={handleLike}
+          onClick={handleLike}
         />
         <img src={Comment} alt="" />
         <img src={Share} alt="" />
       </div>
 
       <span style={{ color: "var(--gray)", fontSize: "12px" }}>
-        {data?.likes} likes
+        {likes} likes
       </span>
       <div className="detail">
         <span>
