@@ -1,7 +1,18 @@
 import { Modal, useMantineTheme } from "@mantine/core";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-export default function ProfileModal({ modalOpened, setModalOpened }) {
+export default function ProfileModal({ modalOpened, setModalOpened, data }) {
   const theme = useMantineTheme();
+  const { password, ...other } = data;
+  const { formData, setFormData } = useState(other);
+  const [profileImage, setProfileImage] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
+  const dispatch = useDispatch();
+  const params = useParams();
+
+  const { user } = useSelector((state) => state.authReducer.authData);
 
   return (
     <Modal
@@ -23,13 +34,13 @@ export default function ProfileModal({ modalOpened, setModalOpened }) {
           <input
             type="text"
             className="infoInput"
-            name="FirsName"
+            name="firstname"
             placeholder="First Name"
           />
           <input
             type="text"
             className="infoInput"
-            name="LastName"
+            name="lastname"
             placeholder="Last Name"
           />
         </div>
@@ -38,7 +49,7 @@ export default function ProfileModal({ modalOpened, setModalOpened }) {
           <input
             type="text"
             className="infoInput"
-            name="WorksAt"
+            name="worksAt"
             placeholder="Works at"
           />
         </div>
@@ -46,13 +57,13 @@ export default function ProfileModal({ modalOpened, setModalOpened }) {
           <input
             type="text"
             className="infoInput"
-            name="livesIN"
+            name="livesin"
             placeholder="Lives in"
           />
           <input
             type="text"
             className="infoInput"
-            name="Country"
+            name="country"
             placeholder="Country"
           />
         </div>
@@ -61,7 +72,7 @@ export default function ProfileModal({ modalOpened, setModalOpened }) {
           <input
             type="text"
             className="infoInput"
-            name="Relationship Status"
+            name="relationship"
             placeholder="Relationship Status"
           />
         </div>

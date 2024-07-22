@@ -16,6 +16,10 @@ const authReducer = (
 
     case "AUTH_FAILED":
       return { ...state, loading: false, error: true };
+    // TODO: Check if this logout is also contributing to the bug on his app where I cannot log in
+    case "LOG_OUT":
+      localStorage.clear();
+      return { ...state, authData: null, loading: false, error: false };
     default:
       return state;
   }
