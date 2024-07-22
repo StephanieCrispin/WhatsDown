@@ -1,8 +1,16 @@
 import "./Auth.css";
 import Logo from "../../img/logo.png";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn, signUp } from "../../actions/AuthAction";
 
 const Auth = () => {
+  const dispatch = useDispatch();
+  // So this is basically how we can get values from our reducer-> which i think is the home place
+  //If i want to get error state I'll say
+  // const error = useSelector((state)=>state.authReducer.error)
+
+  const loading = useSelector((state) => state.authReducer.loading);
   const [isSignUp, setIsSignUp] = useState(true);
   const [data, setData] = useState({
     firstname: "",
@@ -21,7 +29,11 @@ const Auth = () => {
     e.preventDefault();
 
     if (isSignUp) {
-      if (data.password !== data.confirmpass) setConfirmPass(false);
+      data.password === data.confirmpass
+        ? dispatch(signUp(data))
+        : setConfirmPass(false);
+    } else {
+      dispatch(logIn(data));
     }
   };
 
@@ -46,7 +58,7 @@ const Auth = () => {
       </div>
 
       <div className="a-right">
-        <div className="infoForm authForm" onSubmit={handleSubmit}>
+        <form className="infoForm authForm" onSubmit={handleSubmit}>
           <h3>{isSignUp ? "SIgn up" : "Log In"}</h3>
 
           {isSignUp && (
@@ -127,10 +139,14 @@ const Auth = () => {
                 : "Don't have an account? Sign Up"}
             </span>
           </div>
-          <button className="button infoButton" type="Submit">
-            {isSignUp ? "Signup" : "Log In"}
+          <button
+            className="button infoButton"
+            type="Submit"
+            disabled={loading}
+          >
+            {loading ? "...loading" : isSignUp ? "Signup" : "Log In"}
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );
