@@ -1,0 +1,3 @@
+*BUG: 
+
+Fix items duplicating on page reload

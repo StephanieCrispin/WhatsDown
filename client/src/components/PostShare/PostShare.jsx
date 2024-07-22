@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./PostShare.css";
-import ProfileImage from "../../img/profileImg.jpg";
+import ProfileImage from "../../img/defaultProfile.png";
 import { UilScenery } from "@iconscout/react-unicons";
 import { UilPlayCircle } from "@iconscout/react-unicons";
 import { UilLocationPoint } from "@iconscout/react-unicons";

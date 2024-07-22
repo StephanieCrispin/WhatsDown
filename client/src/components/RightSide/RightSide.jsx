@@ -3,6 +3,7 @@ import "./RightSide.css";
 
 import TrendCard from "../TrendCard/TrendCard";
 import ShareModal from "../ShareModal/ShareModal";
+import { Link } from "react-router-dom";
 // import NavIcons from "../NavIcons/NavIcons";
 
 import NavIcons from "../NavIcons/NavIcons";
