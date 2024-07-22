@@ -28,9 +28,13 @@ export const getAllUsers = async (req, res) => {
       const { password, ...otherDetails } = user._doc;
       return otherDetails;
     });
-    res.status(200).json(users);
+    res.status(200).json({
+      status: "Success",
+      message: "Users gotten successfully",
+      data: users,
+    });
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({ status: "Failed", error: error });
   }
 };
 

@@ -18,19 +18,20 @@ const InfoCard = () => {
 
   const { user } = useSelector((state) => state.authReducer.authData);
 
+  const fetchProfileUser = async () => {
+    if (profileUserId === user._id) {
+      setProfileUser(user);
+      console.log(user);
+    } else {
+      const profileUser = await UserApi.getUser(profileUserId);
+      setProfileUser(profileUser);
+      console.log(profileUser);
+    }
+  };
+
   useEffect(() => {
-    const fetchProfileUser = async () => {
-      if (profileUserId === user._id) {
-        setProfileUser(user);
-        console.log(user);
-      } else {
-        const profileUser = await UserApi.getUser(profileUserId);
-        setProfileUser(profileUser);
-        console.log(profileUser);
-      }
-    };
     fetchProfileUser();
-  }, [user]);
+  }, [user, profileUserId]);
 
   const handleLogout = () => {
     dispatch(logOut());
@@ -39,7 +40,7 @@ const InfoCard = () => {
     <div className="InfoCard">
       <div className="infoHead">
         <h3>Profile Info</h3>
-        {user._id === profileUserId ? (
+        {user?._id === profileUserId ? (
           <div>
             <UilPen onClick={() => setModalOpened(true)} />
             <ProfileModal
@@ -55,19 +56,31 @@ const InfoCard = () => {
 
       <div className="info">
         <span>
-          <b>Status</b>
+          <b>Status </b>
         </span>
         <span>{profileUser?.relationship}</span>
       </div>
       <div className="info">
         <span>
-          <b>Lives in</b>
+          <b>Username </b>
         </span>
-        <span>{profileUser?.livesin}</span>
+        <span>{profileUser?.username}</span>
       </div>
       <div className="info">
         <span>
-          <b>Works at</b>
+          <b>Lives in </b>
+        </span>
+        <span>{profileUser?.livesIn} </span>
+      </div>
+      <div className="info">
+        <span>
+          <b>Country </b>
+        </span>
+        <span>{profileUser?.country} </span>
+      </div>
+      <div className="info">
+        <span>
+          <b>Works at </b>
         </span>
         <span>{profileUser?.worksAt}</span>
       </div>
