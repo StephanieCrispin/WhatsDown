@@ -2,6 +2,7 @@ import PostModel from "../models/postModel.js";
 import UserModel from "../models/userModel.js";
 import mongoose from "mongoose";
 
+// TODO: In the future maybe make the posts picture an array so if a person is uploading multiple posts it can show in a carousel
 // creating a post
 
 export const createPost = async (req, res) => {
