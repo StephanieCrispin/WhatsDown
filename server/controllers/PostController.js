@@ -2,6 +2,7 @@ import PostModel from "../models/postModel.js";
 import UserModel from "../models/userModel.js";
 import mongoose from "mongoose";
 
+// TODO: In the future maybe make the posts picture an array so if a person is uploading multiple posts it can show in a carousel
 // creating a post
 
 export const createPost = async (req, res) => {
@@ -87,12 +88,53 @@ export const likePost = async (req, res) => {
 };
 
 // Get timeline posts
+// export const getTimelinePosts = async (req, res) => {
+//   const userId = req.params.id;
+//   try {
+//     const currentUserPosts = await PostModel.find({ userId: userId });
+
+//     const followingPosts = await UserModel.aggregate([
+//       {
+//         $match: {
+//           _id: new mongoose.Types.ObjectId(userId),
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "posts",
+//           localField: "following",
+//           foreignField: "userId",
+//           as: "followingPosts",
+//         },
+//       },
+//       {
+//         $project: {
+//           followingPosts: 1,
+//           _id: 0,
+//         },
+//       },
+//     ]);
+//     const allPosts = currentUserPosts
+//       .concat(...followingPosts[0].followingPosts)
+//       .sort((a, b) => {
+//         return new Date(b.createdAt) - new Date(a.createdAt);
+//       });
+//     res.status(200).json({ status: "Success", data: allPosts });
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// };
+
 export const getTimelinePosts = async (req, res) => {
   const userId = req.params.id;
   try {
-    const currentUserPosts = await PostModel.find({ userId: userId });
+    // Fetch current user posts and sort by createdAt
+    const currentUserPosts = await PostModel.find({ userId: userId }).sort({
+      createdAt: -1,
+    });
 
-    const followingPosts = await UserModel.aggregate([
+    // Fetch following users' posts
+    const followingPostsResult = await UserModel.aggregate([
       {
         $match: {
           _id: new mongoose.Types.ObjectId(userId),
@@ -107,19 +149,35 @@ export const getTimelinePosts = async (req, res) => {
         },
       },
       {
+        $unwind: "$followingPosts",
+      },
+      {
+        $sort: { "followingPosts.createdAt": -1 },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          followingPosts: { $push: "$followingPosts" },
+        },
+      },
+      {
         $project: {
           followingPosts: 1,
           _id: 0,
         },
       },
     ]);
-    const allPosts = currentUserPosts
-      .concat(...followingPosts[0].followingPosts)
-      .sort((a, b) => {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      });
+
+    const followingPosts = followingPostsResult[0]?.followingPosts || [];
+
+    // Merge and sort all posts by createdAt
+    const allPosts = [...currentUserPosts, ...followingPosts].sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+
     res.status(200).json({ status: "Success", data: allPosts });
   } catch (error) {
-    res.status(500).json(error);
+    console.error(error);
+    res.status(500).json({ status: "Error", message: error.message });
   }
 };

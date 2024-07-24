@@ -1,7 +1,7 @@
 //TODO:  Does this not mean that my initial action then should be to get all user posts from the API and populate the posts
 
 const postReducer = (
-  state = { posts: null, loading: false, error: false, uploading: false },
+  state = { posts: [], loading: false, error: false, uploading: false },
   action
 ) => {
   switch (action.type) {
@@ -10,7 +10,7 @@ const postReducer = (
     case "UPLOAD_SUCCESS":
       return {
         ...state,
-        posts: [action.data, ...state.posts],
+        posts: [action.data, ...state?.posts],
         uploading: false,
         error: false,
       };
@@ -25,9 +25,10 @@ const postReducer = (
       return {
         ...state,
         loading: false,
-        posts: [...action.data, ...state.posts],
+        posts: [...action.data],
         error: false,
       };
+
     case "RETRIEVING_FAILED":
       return { ...state, loading: false, error: true };
 

@@ -6,7 +6,7 @@ const TrendCard = () => {
     <div className="TrendCard">
       <h3>Trends for your</h3>
 
-      {TrendData.map((trend, id) => {
+      {TrendData?.map((trend, id) => {
         return (
           <div className="trend" key={id}>
             <span>#{trend.name}</span>
