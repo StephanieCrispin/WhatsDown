@@ -15,9 +15,11 @@
 }
 .App {
   overflow: hidden;
-  background: #f3f3f3;
-  color: var(--black);
+  background: #203354;
+  /* color: var(--black); */
+  color: white;
   padding: 1rem 1rem;
+  min-height: 100vh;
 }
 
 .blur {
@@ -25,7 +27,8 @@
   width: 22rem;
   height: 14rem;
   border-radius: 50%;
-  background: #a6ddf0;
+  background: #a6ddf041;
+  /* background: #a6ddf0; */
   filter: blur(72px);
 }
 .button {

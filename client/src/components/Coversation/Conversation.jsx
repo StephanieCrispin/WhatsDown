@@ -5,7 +5,6 @@ import { getUser } from "../../api/UserRequest";
 import Profile from "../../img/defaultProfile.png";
 
 const Conversation = ({ data, currentUser, online }) => {
-  console.log(online);
   const [userData, setUserData] = useState(null);
   const dispatch = useDispatch();
 
