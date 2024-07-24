@@ -12,7 +12,6 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
   };
@@ -38,7 +37,6 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
     const fetchMessages = async () => {
       try {
         const { data } = await getMessages(chat._id);
-        console.log(data.data);
         setMessages(data.data);
       } catch (error) {
         console.log(error);
@@ -49,9 +47,9 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   }, [chat]);
 
   //   // Always scroll to last Message
-  //   useEffect(()=> {
-  //     scroll.current?.scrollIntoView({ behavior: "smooth" });
-  //   },[messages])
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   //   // Send Message
   const handleSend = async (e) => {
@@ -63,11 +61,13 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
     };
     const receiverId = chat.members.find((id) => id !== currentUser);
     // send message to socket server
+
     setSendMessage({ ...message, receiverId });
     // send message to database
     try {
       const { data } = await addMessage(message);
-      setMessages([...messages, data]);
+      console.log(data);
+      setMessages([...messages, data.data]);
       setNewMessage("");
     } catch {
       console.log("error");
@@ -75,13 +75,12 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   };
 
   // // Receive Message from parent component
-  // useEffect(()=> {
-  //   console.log("Message Arrived: ", receivedMessage)
-  //   if (receivedMessage !== null && receivedMessage.chatId === chat._id) {
-  //     setMessages([...messages, receivedMessage]);
-  //   }
-
-  // },[receivedMessage])
+  useEffect(() => {
+    console.log("Message Arrived: ", receivedMessage);
+    if (receivedMessage !== null && receivedMessage.chatId === chat._id) {
+      setMessages([...messages, receivedMessage]);
+    }
+  }, [receivedMessage]);
 
   const scroll = useRef();
   const imageRef = useRef();
@@ -126,7 +125,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
                   <div
                     ref={scroll}
                     className={
-                      message.senderId === currentUser
+                      message?.senderId === currentUser
                         ? "message own"
                         : "message"
                     }

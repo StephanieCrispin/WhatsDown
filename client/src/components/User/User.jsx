@@ -2,10 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Profile from "../../img/defaultProfile.png";
 import { followUser, unfollowUser } from "../../actions/UserAction";
 import { useState } from "react";
+import { createChat } from "../../api/ChatRequests";
+import { useNavigate } from "react-router-dom";
 
 const User = ({ person }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [following, setFollowing] = useState(
     person.followers.includes(user._id)
@@ -15,6 +18,17 @@ const User = ({ person }) => {
       ? dispatch(unfollowUser(person._id, user))
       : dispatch(followUser(person._id, user));
     setFollowing((prev) => !prev);
+  };
+
+  const handleChat = async () => {
+    const data = {
+      senderId: user._id,
+      receiverId: person._id,
+    };
+    const result = await createChat(data);
+
+    console.log(result);
+    navigate("/chat");
   };
   return (
     <div className="follower">
@@ -36,6 +50,9 @@ const User = ({ person }) => {
         onClick={handleFollow}
       >
         {following ? "Unfollow" : "Follow"}
+      </button>
+      <button className={"button fc-button"} onClick={handleChat}>
+        Chat
       </button>
     </div>
   );
