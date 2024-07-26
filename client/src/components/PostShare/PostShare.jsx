@@ -9,6 +9,7 @@ import { UilTimes } from "@iconscout/react-unicons";
 import { useDispatch, useSelector } from "react-redux";
 import { storage } from "../../utilities/firebase";
 import { UploadPost } from "../../actions/UploadAction";
+import toast, { Toaster } from "react-hot-toast";
 
 const PostShare = () => {
   const [image, setImage] = useState(null);
@@ -41,6 +42,12 @@ const PostShare = () => {
       newPost.image = downloadURL;
     }
     dispatch(UploadPost(newPost));
+    toast.success("New post uploaded!", {
+      position: "top-right",
+      style: {
+        background: "#d4edda",
+      },
+    });
     reset();
   };
 
@@ -97,10 +104,15 @@ const PostShare = () => {
         {image && (
           <div className="previewImage">
             <UilTimes onClick={() => setImage(null)} />
-            <img src={URL.createObjectURL(image)} alt="preview" />
+            <img
+              src={URL.createObjectURL(image)}
+              alt="preview"
+              className="previewImg"
+            />
           </div>
         )}
       </div>
+      <Toaster />
     </div>
   );
 };

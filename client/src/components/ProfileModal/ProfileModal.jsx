@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { storage } from "../../utilities/firebase";
 import { updateUser } from "../../actions/UserAction";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ProfileModal({ modalOpened, setModalOpened, data }) {
   const theme = useMantineTheme();
@@ -48,6 +49,12 @@ export default function ProfileModal({ modalOpened, setModalOpened, data }) {
       UserData.coverPicture = downloadURL;
     }
     dispatch(updateUser(params.id, UserData));
+    toast.success("Success! profile updated successfully.", {
+      position: "top-right",
+      style: {
+        background: "#d4edda",
+      },
+    });
     setModalOpened(false);
   };
   return (
@@ -134,6 +141,7 @@ export default function ProfileModal({ modalOpened, setModalOpened, data }) {
         <button className="infoButton button" onClick={handleSubmit}>
           Update
         </button>
+        <Toaster />
       </form>
     </Modal>
   );

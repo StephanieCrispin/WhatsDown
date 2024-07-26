@@ -1,13 +1,17 @@
 .LogoSearch {
-  display: flex;
+  /* display: flex; */
   gap: 0.75rem;
 }
-
+.LogoSearch img {
+  width: 14rem;
+  margin-top: -15px;
+}
 .Search {
   display: flex;
   background: var(--inputColor);
   border-radius: 10px;
   padding: 5px;
+  justify-content: space-between;
 }
 
 .Search > input {
@@ -19,7 +23,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(106deg, #f99827, #f95f35 100%);
+  background: #348dd4;
   border-radius: 5px;
   padding: 4px;
   color: white;

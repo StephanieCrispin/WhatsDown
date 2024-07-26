@@ -10,14 +10,22 @@ const ProfileCard = ({ location }) => {
 
   return (
     <div className="ProfileCard">
-      <div className="ProfileImages">
-        <img src={user?.coverPicture ? user?.coverPicture : Cover} alt="" />
+      <div
+        className={
+          location === "profilePage"
+            ? "ProfileImages profileExtra"
+            : "ProfileImages"
+        }
+      >
+        <img
+          src={user?.coverPicture ? user?.coverPicture : Cover}
+          className="CoveriImg"
+          alt=""
+        />
         <img
           src={user?.profilePicture ? user?.profilePicture : Profile}
           alt=""
         />
-        {/* TODO: Maybe add an avatar option */}
-        {/* <Avatar name={`${user?.firstname} ${user.lastname}`} /> */}
       </div>
       <div className="ProfileName">
         <span>

@@ -13,9 +13,6 @@ function App() {
     <div className="App">
       <div className="blur" style={{ top: "-18%", right: "0" }}></div>
       <div className="blur" style={{ top: "36%", left: "-8rem" }}></div>
-      {/* <Home /> */}
-      {/* <Profile /> */}
-      {/* <Auth /> */}
       <Routes>
         <Route
           path="/"
@@ -25,11 +22,9 @@ function App() {
           path="/home"
           element={user ? <Home /> : <Navigate to="../auth" />}
         />
-        <Route
-          path="/auth"
-          element={user ? <Navigate to="../home" /> : <Auth />}
-        />
         <Route path="/profile/:id" element={user ? <Profile /> : <Auth />} />
+
+        <Route path="/auth" element={user ? <Home /> : <Auth />} />
 
         <Route path="/chat" element={user ? <Chat /> : <Auth />} />
       </Routes>
