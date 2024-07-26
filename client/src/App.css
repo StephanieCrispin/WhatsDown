@@ -15,11 +15,12 @@
 }
 .App {
   overflow: hidden;
-  background: #203354;
-  /* color: var(--black); */
-  color: white;
-  padding: 1rem 1rem;
+  background: #f3f3f3;
+  color: var(--black);
+  /* color: white; */
+  padding: 0 1rem;
   min-height: 100vh;
+  padding: 0 3rem 0 3rem;
 }
 
 .blur {
@@ -38,7 +39,7 @@
   color: white;
   border: none;
   border-radius: 0.5rem;
-  background: var(--buttonBg);
+  background: #348dd4;
   transition: all 100ms ease-out;
 }
 .fc-button {
@@ -49,9 +50,9 @@
 
 .button:hover {
   cursor: pointer;
-  color: var(--orange);
+  color: #348dd4;
   background: transparent;
-  border: 2px solid var(--orange);
+  border: 2px solid #348dd4;
 }
 
 .button:disabled {
@@ -92,4 +93,7 @@
   width: 6rem;
   height: 2rem;
   align-self: flex-end;
+}
+.icons:hover {
+  color: #348dd4;
 }
