@@ -94,17 +94,100 @@ export const deleteUser = async (req, res) => {
 
 // Follow a User
 // changed
+// export const followUser = async (req, res) => {
+//   // id represents the person to be followed
+//   // id from params represents the person that will be followed
+
+//   const id = req.params.id;
+//   // _id represents the preson that wants to follow
+//   // So basically _id belongs to the person that will do the following
+
+//   const { _id } = req.body;
+//   console.log(id, _id);
+
+//   if (_id == id) {
+//     res.status(403).json("Action Forbidden");
+//   } else {
+//     try {
+//       const followUser = await UserModel.findById(id);
+//       const followingUser = await UserModel.findById(_id);
+
+//       if (!followUser.followers.includes(_id)) {
+//         const updatedFollowUser = await UserModel.findByIdAndUpdate(
+//           id,
+//           { $push: { followers: _id } },
+//           { new: true }
+//         );
+//         const updatedFollowingUser = await UserModel.findByIdAndUpdate(
+//           _id,
+//           { $push: { following: id } },
+//           { new: true }
+//         );
+//         res.status(200).json({
+//           status: "success",
+//           follower: updatedFollowingUser,
+//           followed: updatedFollowUser,
+//         });
+//       } else {
+//         res.status(403).json({
+//           status: "failed",
+//           message: "you are already following this user",
+//         });
+//       }
+//     } catch (error) {
+//       console.log(error);
+//       res.status(500).json(error);
+//     }
+//   }
+// };
+
+// // Unfollow a User
+// // changed
+// export const unfollowUser = async (req, res) => {
+//   const id = req.params.id;
+
+//   //id the id of the user to be unfollowed
+//   const { _id } = req.body;
+
+//   // _id the id of the user doing
+//   if (_id === id) {
+//     res.status(403).json("Action Forbidden");
+//   } else {
+//     try {
+//       const unFollowUser = await UserModel.findById(id);
+//       const unFollowingUser = await UserModel.findById(_id);
+
+//       if (unFollowUser.followers.includes(_id)) {
+//         const updatedUnFollowUser = await UserModel.findByIdAndUpdate(
+//           id,
+//           { $pull: { followers: _id } },
+//           { new: true }
+//         );
+//         const updatedUnFollowingUser = await UserModel.findByIdAndUpdate(
+//           _id,
+//           { $pull: { following: id } },
+//           { new: true }
+//         );
+//         res.status(200).json({
+//           status: "success",
+//           unfollower: updatedUnFollowingUser,
+//           unfollowed: updatedUnFollowUser,
+//         });
+//       } else {
+//         res.status(403).json({
+//           status: "error",
+//           message: "You are not following this User",
+//         });
+//       }
+//     } catch (error) {
+//       res.status(500).json(error);
+//     }
+//   }
+// };
 export const followUser = async (req, res) => {
-  // id represents the person to be followed
-  // id from params represents the person that will be followed
-
   const id = req.params.id;
-  // _id represents the preson that wants to follow
-  // So basically _id belongs to the person that will do the following
-
   const { _id } = req.body;
   console.log(id, _id);
-
   if (_id == id) {
     res.status(403).json("Action Forbidden");
   } else {
@@ -113,26 +196,11 @@ export const followUser = async (req, res) => {
       const followingUser = await UserModel.findById(_id);
 
       if (!followUser.followers.includes(_id)) {
-        const updatedFollowUser = await UserModel.findByIdAndUpdate(
-          id,
-          { $push: { followers: _id } },
-          { new: true }
-        );
-        const updatedFollowingUser = await UserModel.findByIdAndUpdate(
-          _id,
-          { $push: { following: id } },
-          { new: true }
-        );
-        res.status(200).json({
-          status: "success",
-          follower: updatedFollowingUser,
-          followed: updatedFollowUser,
-        });
+        await followUser.updateOne({ $push: { followers: _id } });
+        await followingUser.updateOne({ $push: { following: id } });
+        res.status(200).json("User followed!");
       } else {
-        res.status(403).json({
-          status: "failed",
-          message: "you are already following this user",
-        });
+        res.status(403).json("you are already following this id");
       }
     } catch (error) {
       console.log(error);
@@ -145,11 +213,8 @@ export const followUser = async (req, res) => {
 // changed
 export const unfollowUser = async (req, res) => {
   const id = req.params.id;
-
-  //id the id of the user to be unfollowed
   const { _id } = req.body;
 
-  // _id the id of the user doing
   if (_id === id) {
     res.status(403).json("Action Forbidden");
   } else {
@@ -158,26 +223,11 @@ export const unfollowUser = async (req, res) => {
       const unFollowingUser = await UserModel.findById(_id);
 
       if (unFollowUser.followers.includes(_id)) {
-        const updatedUnFollowUser = await UserModel.findByIdAndUpdate(
-          id,
-          { $pull: { followers: _id } },
-          { new: true }
-        );
-        const updatedUnFollowingUser = await UserModel.findByIdAndUpdate(
-          _id,
-          { $pull: { following: id } },
-          { new: true }
-        );
-        res.status(200).json({
-          status: "success",
-          unfollower: updatedUnFollowingUser,
-          unfollowed: updatedUnFollowUser,
-        });
+        await unFollowUser.updateOne({ $pull: { followers: _id } });
+        await unFollowingUser.updateOne({ $pull: { following: id } });
+        res.status(200).json("Unfollowed Successfully!");
       } else {
-        res.status(403).json({
-          status: "error",
-          message: "You are not following this User",
-        });
+        res.status(403).json("You are not following this User");
       }
     } catch (error) {
       res.status(500).json(error);
