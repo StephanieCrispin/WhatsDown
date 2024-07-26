@@ -1,6 +1,6 @@
 # WhatsDown - Social Media App
 
-![WhatsDown Logo](path_to_logo_image)
+![WhatsDown Logo](./client/src/img/app-logo.png)
 
 WhatsDown is a social media application built with React and JavaScript for the frontend, and Express, MongoDB, and Node.js for the backend. It also includes real-time chat functionality powered by Socket.io.
 
