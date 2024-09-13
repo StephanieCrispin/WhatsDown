@@ -102,7 +102,7 @@ const User = ({ person }) => {
       <button className={"UnfollowButton"} onClick={handleFollow}>
         {following ? "Unfollow" : "Follow"}
       </button>
-      <Toaster />
+      {/* <Toaster /> */}
     </div>
   );
 };

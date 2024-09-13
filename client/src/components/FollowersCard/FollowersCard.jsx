@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { Followers } from "../../Data/FollowersData";
 import User from "../User/User";
 import "./FollowersCard.css";
 import { useSelector } from "react-redux";
 import { getAllUser } from "../../api/UserRequest";
 
 const FollowersCard = () => {
-  // const [modalOpened, setModalOpened] = useState(false);
   const [persons, setPersons] = useState([]);
   const { user } = useSelector((state) => state.authReducer.authData);
 

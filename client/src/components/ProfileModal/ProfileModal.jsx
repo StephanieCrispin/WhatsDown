@@ -141,7 +141,7 @@ export default function ProfileModal({ modalOpened, setModalOpened, data }) {
         <button className="infoButton button" onClick={handleSubmit}>
           Update
         </button>
-        <Toaster />
+        {/* <Toaster /> */}
       </form>
     </Modal>
   );
